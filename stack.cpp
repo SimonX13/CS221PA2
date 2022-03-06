@@ -22,7 +22,6 @@ Stack<T>::Stack()
   T* dynamicArray = new T[DEFAULTCAPACITY];
   items = dynamicArray;
 
-  
 }
 
 /*
@@ -207,22 +206,13 @@ template <class T>
 void Stack<T>::Resize(size_t n)
 {
   // complete your implementation below
-   
-    size_t temp = num_items; // holding max_items
     max_items = n;
-    T* dynamicArray_2 = new T[n]; // new array
-    for(size_t x =0; x< temp; x++){
-      dynamicArray_2[x] = items[x];
+    T* dynamicArray = new T[n]; // new array
+    for(size_t x = 0; x < n; x++){
+      dynamicArray[x] = items[x];
     }
+    
+    items = dynamicArray;
     delete [] items;
-    items = dynamicArray_2;
 
-  //  T *tempPointer = items; 
-  //   items = new T[n]; 
-
-  //   for(int i = 0; (size_t)i < num_items; i++){
-  //       *(items + i) = *(tempPointer + i);
-  //   }   
-  //   max_items = n; 
-  //   delete [] tempPointer; 
 };
