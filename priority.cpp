@@ -25,7 +25,7 @@ using namespace std;
 */
 PriorityNeighbours::PriorityNeighbours() {
   // complete your implementation below
-  
+  refcolor = HSLAPixel();
 }
 
 /*
@@ -34,7 +34,10 @@ PriorityNeighbours::PriorityNeighbours() {
 */
 PriorityNeighbours::PriorityNeighbours(HSLAPixel ref) {
   // complete your implementation below
-  
+  refcolor.h = ref.h;
+  refcolor.s = ref.s;
+  refcolor.l = ref.l;
+  refcolor.a = ref.a;
 }
 
 /*
@@ -44,7 +47,7 @@ PriorityNeighbours::PriorityNeighbours(HSLAPixel ref) {
 */
 void PriorityNeighbours::Insert(PixelPoint p) {
   // complete your implementation below
-  
+  points.push_back(p);
 }
 
 /*
@@ -70,6 +73,10 @@ void PriorityNeighbours::Insert(PixelPoint p) {
 */
 PixelPoint PriorityNeighbours::Remove() {
   // complete your implementation below
+  if (points.size() == 0) {
+    return NULL;
+  }
+
   
 }
 
@@ -80,7 +87,7 @@ PixelPoint PriorityNeighbours::Remove() {
 */
 bool PriorityNeighbours::IsEmpty() const {
   // complete your implementation below
-  
+  return (points.size() == 0);
 }
 
 /*
@@ -88,7 +95,7 @@ bool PriorityNeighbours::IsEmpty() const {
 */
 HSLAPixel PriorityNeighbours::GetReferenceColor() const {
   // complete your implementation below
-  
+  return refcolor;
 }
 
 /*
@@ -97,5 +104,8 @@ HSLAPixel PriorityNeighbours::GetReferenceColor() const {
 */
 void PriorityNeighbours::SetReferenceColor(HSLAPixel ref) {
   // complete your implementation below
-  
+  refcolor.h = ref.h;
+  refcolor.s = ref.s;
+  refcolor.l = ref.l;
+  refcolor.a = ref.a;
 }
