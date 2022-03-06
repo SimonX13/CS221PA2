@@ -84,20 +84,12 @@ template <class T>
 T Stack<T>::Pop()
 {
   // complete your implementation below
-  
-  size_t size_1 = max_items;
-  // (double)((size_1-1.0)/ size_1) < (double ) (1.0/ SHRINKRATE)
-  size_t temp = num_items - 1;
+  T removed = items[num_items - 1];
   num_items--;
-  T var = items[num_items];
-  // items[num_items] =0;
- 
-  //-----------------------------------------------------------------------------------------------------------------
-  //double ratio =(double) ((temp) / max_items); // change of ratio
-  double threshold = (double) (1.0 / SHRINKRATE); // 0.25
+
   //if the ratio is smaller than the threshold, then we need to resize the capacity to 4 or capacity/2 
-  if(num_items < threshold){
-    size_t newSize = max_items/EXPANSIONFACTOR;
+  if(num_items < (max_items / SHRINKRATE)){
+    size_t newSize = max_items / EXPANSIONFACTOR;
     if(newSize > DEFAULTCAPACITY){
       Resize(newSize);
     }
@@ -106,7 +98,7 @@ T Stack<T>::Pop()
     }
   }
 
-  return var;
+  return removed;
 };
 
 /*
@@ -207,12 +199,12 @@ void Stack<T>::Resize(size_t n)
 {
   // complete your implementation below
     max_items = n;
-    T* dynamicArray = new T[n]; // new array
-    for(size_t x = 0; x < n; x++){
-      dynamicArray[x] = items[x];
+    T* dynamicArray = items; // new array
+    items = new T[n];
+    for(size_t i = 0; i < n; i++){
+      items[i] = dynamicArray[i];
     }
-    
-    items = dynamicArray;
-    delete [] items;
+
+    delete [] dynamicArray;
 
 };
