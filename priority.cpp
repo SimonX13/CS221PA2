@@ -74,15 +74,16 @@ PixelPoint PriorityNeighbours::Remove(){
   // distance of the ref HSPX
   double refdistance = refcolor.dist(refcolor);
   
-  double potentialDistance = refcolor.dist(points[0].color); // points[0].color.dist(points[0].color);
+  double potentialDistance = points[0].color.dist(points[0].color); // points[0].color.dist(points[0].color);
   double gap = abs(refdistance - potentialDistance);
   int index=0;
   
   for(int i=1; i < points.size(); i++){
-    double potentialDistance = refcolor.dist(points[i].color);
+    double potentialDistance = points[i].color.dist(points[i].color);
     double newGap = abs(refdistance - potentialDistance);
     if(gap > newGap){
       index = i;
+      gap = newGap;
     }
     //store the min abs potentialDistance - refdistance value  and then mark i and use another for loop to kill the element using erase
   }
@@ -113,22 +114,22 @@ PixelPoint PriorityNeighbours::Remove(){
       v3.push_back(v2[i]);
     }
   }
-  // now v3 has all the canadidate
+  // now v3 has all the canadidates of least y dimension
  
   // unsigned int tempy = v3[0].y;
   unsigned int tempx = v3[0].x;
   
   int index3 = 0;
-  for(int i=0; i < v2.size(); i++){
-    if( v2[i].x < tempx ){
+  for(int i=0; i < v3.size(); i++){
+    if( v3[i].x < tempx ){
       index3 = i;
-      tempx = v2[i].x;
+      tempx = v3[i].x;
     }
   }
 
   // remove the element from the collection
   for(int i=0; i < points.size(); i++){
-    if(v3[index3] == points[i]){
+    if(v3[index3].color.dist(v3[index3].color) == points[i].color.dist(points[i].color)){ // compare distance
       if(v3[index3].y == points[i].y && v3[index3].x == points[i].x){
         points.erase(points.begin()+i);
         break;
@@ -158,7 +159,7 @@ bool PriorityNeighbours::IsEmpty() const {
 */
 HSLAPixel PriorityNeighbours::GetReferenceColor() const {
   // complete your implementation below
-  
+  return refcolor;
 }
 
 /*
