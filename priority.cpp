@@ -34,10 +34,7 @@ PriorityNeighbours::PriorityNeighbours() {
 */
 PriorityNeighbours::PriorityNeighbours(HSLAPixel ref) {
   // complete your implementation below
-  refcolor.h = ref.h;
-  refcolor.s = ref.s;
-  refcolor.l = ref.l;
-  refcolor.a = ref.a;
+  refcolor = ref;
 }
 
 /*
@@ -71,13 +68,79 @@ void PriorityNeighbours::Insert(PixelPoint p) {
 *  Combined with Insert(), think about the time complexity of maintaining the
 *  priority order and/or accessing the priority element in this specific application!
 */
-PixelPoint PriorityNeighbours::Remove() {
+PixelPoint PriorityNeighbours::Remove(){
   // complete your implementation below
-  if (points.size() == 0) {
-    return NULL;
+
+  // distance of the ref HSPX
+  double refdistance = refcolor.dist(refcolor);
+  
+  double potentialDistance = refcolor.dist(points[0].color); // points[0].color.dist(points[0].color);
+  double gap = abs(refdistance - potentialDistance);
+  int index=0;
+  
+  for(int i=1; i < points.size(); i++){
+    double potentialDistance = refcolor.dist(points[i].color);
+    double newGap = abs(refdistance - potentialDistance);
+    if(gap > newGap){
+      index = i;
+    }
+    //store the min abs potentialDistance - refdistance value  and then mark i and use another for loop to kill the element using erase
   }
 
+  // creating a new vector to store these
+  vector<PixelPoint> v2;
+  for(int i=0; i < points.size(); i++){
+    if(points[index].color.dist(points[index].color) == points[i].color.dist(points[i].color)){
+      v2.push_back(points[index]);
+    }
+  }
+  // now v2 has all the possible candidate and ready for y dimension comparison
   
+  unsigned int tempy = v2[0].y;
+  // unsigned int tempx = v2[0].x;
+  
+  int index2 =0;
+  for(int i = 0; i < v2.size(); i++){
+    if(v2[i].y < tempy){
+      index2 = i;
+      tempy = v2[i].y;
+    }
+  }
+
+  vector<PixelPoint> v3;
+  for(int i=0; i < v2.size(); i++){
+    if( v2[i].y == tempy){
+      v3.push_back(v2[i]);
+    }
+  }
+  // now v3 has all the canadidate
+ 
+  // unsigned int tempy = v3[0].y;
+  unsigned int tempx = v3[0].x;
+  
+  int index3 = 0;
+  for(int i=0; i < v2.size(); i++){
+    if( v2[i].x < tempx ){
+      index3 = i;
+      tempx = v2[i].x;
+    }
+  }
+
+  // remove the element from the collection
+  for(int i=0; i < points.size(); i++){
+    if(v3[index3] == points[i]){
+      if(v3[index3].y == points[i].y && v3[index3].x == points[i].x){
+        points.erase(points.begin()+i);
+        break;
+      }
+    }
+  }
+
+  // return the element
+  return v3[index3];
+  
+  // now v2 has all the potential candidates
+  // index would be the smallest index
 }
 
 /*
@@ -87,7 +150,7 @@ PixelPoint PriorityNeighbours::Remove() {
 */
 bool PriorityNeighbours::IsEmpty() const {
   // complete your implementation below
-  return (points.size() == 0);
+  return points.empty();
 }
 
 /*
@@ -95,7 +158,7 @@ bool PriorityNeighbours::IsEmpty() const {
 */
 HSLAPixel PriorityNeighbours::GetReferenceColor() const {
   // complete your implementation below
-  return refcolor;
+  
 }
 
 /*
@@ -104,8 +167,6 @@ HSLAPixel PriorityNeighbours::GetReferenceColor() const {
 */
 void PriorityNeighbours::SetReferenceColor(HSLAPixel ref) {
   // complete your implementation below
-  refcolor.h = ref.h;
-  refcolor.s = ref.s;
-  refcolor.l = ref.l;
-  refcolor.a = ref.a;
+  refcolor = ref;
+  
 }
